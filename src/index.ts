@@ -1,1 +1,1 @@
-export * from './Accordion'
+export {Accordion, openAccordions, closeAccordions} from './Accordion'

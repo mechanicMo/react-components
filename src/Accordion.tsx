@@ -50,8 +50,8 @@ interface AccordionComposition {
 }
 
 interface Props {
-    onOpen: () => void;
-    onClose: () => void;
+    onOpen?: () => void;
+    onClose?: () => void;
 }
 
 /**
@@ -85,8 +85,8 @@ const Accordion: FC<PropsWithChildren<Props>> & AccordionComposition = ({
     }, [open, setAccordionStyles]);
 
     useEffect(() => {
-        if (open) onOpen();
-        else onClose();
+        if (open) onOpen && onOpen();
+        else onClose && onClose();
     }, [open]);
 
     const toggleOpen = useCallback(() => {
