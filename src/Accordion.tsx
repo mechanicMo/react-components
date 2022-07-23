@@ -112,7 +112,7 @@ const Accordion: FC<PropsWithChildren<Props>> & AccordionComposition = ({
  */
 const Title: FC<PropsWithChildren<HTMLAttributes<HTMLHeadingElement>>> = ({
     children,
-    className = 'cursor-pointer flex-1 bg-gray-300 h-16 p-5 whitespace-no-wrap overflow-hidden text-overflow-ellipsis border-t border-gray-100',
+    className = 'cursor-pointer bg-gray-300 h-16 p-5 whitespace-no-wrap overflow-hidden text-overflow-ellipsis border-t border-gray-100',
     ...props
 }) => {
     const { toggleOpen, open } = useAccordionContext();
