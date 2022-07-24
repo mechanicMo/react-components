@@ -1,13 +1,13 @@
 {
   "name": "@mechanic-mo/react-components",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "scripts": {
     "build": "yarn build:esm && yarn build:cjs",
     "build:esm": "tsc",
     "build:cjs": "tsc --module commonjs --outDir lib/cjs",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix",
+    "lint": "eslint ./src/*",
+    "lint:fix": "eslint ./src/* --fix",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
   "repository": "git+https://github.com/mechanicMo/react-components.git",
@@ -23,20 +23,24 @@
     "@types/react": "^18.0.15",
     "@typescript-eslint/eslint-plugin": "^5.30.7",
     "@typescript-eslint/parser": "^5.30.7",
-    "eslint": "^8.20.0",
+    "autoprefixer": "^10.4.7",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.30.1",
+    "eslint": "^8.20.0",
+    "postcss": "^8.4.14",
     "prettier": "^2.7.1",
-    "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-use-measure": "^2.1.1",
+    "react": "^17.0.2",
+    "tailwindcss": "^3.1.6",
     "typescript": "^4.7.4"
   },
   "peerDependencies": {
     "@react-spring/web": "^9.0.0",
+    "react-use-measure": "^2.1.1",
     "react": "^17.0.2",
-    "react-use-measure": "^2.1.1"
+    "tailwindcss": "^3.1.6"
   },
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
