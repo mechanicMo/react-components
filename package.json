@@ -1,6 +1,6 @@
 {
   "name": "@mechanic-mo/react-components",
-  "version": "0.0.16",
+  "version": "1.0.0",
   "description": "",
   "scripts": {
     "build": "yarn build:esm && yarn build:cjs",
@@ -8,7 +8,8 @@
     "build:cjs": "tsc --module commonjs --outDir lib/cjs",
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
-    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
+    "publish": "yarn build && npm publish --access public"
   },
   "repository": "git+https://github.com/mechanicMo/react-components.git",
   "keywords": [],
