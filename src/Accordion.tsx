@@ -17,9 +17,6 @@ import React, {
 import { useSpring, animated as a, SpringValue } from '@react-spring/web';
 // import useMeasure from 'react-use-measure';
 
-// TODO add feature for `openAccordions: AccordionContentRef[]` & `closeAccordions: AccordionContentRef[]`. use forwardRef - make examples of usage
-// import { useTableContext } from 'components/UI/Table';
-
 // context
 type AccordionContextValue = {
     accordionStyles: {
@@ -188,7 +185,7 @@ Accordion.Content = Content;
 export { Accordion };
 
 /**
- * @see https://gist.github.com/mechanicMo/58d6744e892445341d39f3c8f3324562.js
+ * @see https://gist.github.com/mechanicMo/58d6744e892445341d39f3c8f3324562
  * @param refList
  */
 export const openAccordions = (refList: AccordionContentRef[]): void => {
@@ -198,7 +195,7 @@ export const openAccordions = (refList: AccordionContentRef[]): void => {
 };
 
 /**
- * @see https://gist.github.com/mechanicMo/58d6744e892445341d39f3c8f3324562.js
+ * @see https://gist.github.com/mechanicMo/58d6744e892445341d39f3c8f3324562
  * @param refList
  */
 export const closeAccordions = (refList: AccordionContentRef[]): void => {
