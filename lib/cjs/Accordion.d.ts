@@ -47,5 +47,13 @@ declare const Content: React.ForwardRefExoticComponent<React.HTMLAttributes<HTML
     toggleOpen: AccordionContextValue['toggleOpen'];
 }> | null>>;
 export { Accordion };
+/**
+ * @see https://gist.github.com/mechanicMo/58d6744e892445341d39f3c8f3324562
+ * @param refList
+ */
 export declare const openAccordions: (refList: AccordionContentRef[]) => void;
+/**
+ * @see https://gist.github.com/mechanicMo/58d6744e892445341d39f3c8f3324562
+ * @param refList
+ */
 export declare const closeAccordions: (refList: AccordionContentRef[]) => void;

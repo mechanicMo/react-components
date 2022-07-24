@@ -3,4 +3,4 @@
 npm login
 - username: `mechanicmo`
 
-yarn publish
+(yarn build && npm publish --access public)

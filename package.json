@@ -8,8 +8,7 @@
     "build:cjs": "tsc --module commonjs --outDir lib/cjs",
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
-    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
-    "publish": "yarn build && npm publish --access public"
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
   "repository": "git+https://github.com/mechanicMo/react-components.git",
   "keywords": [],
