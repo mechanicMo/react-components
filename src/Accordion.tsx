@@ -11,34 +11,36 @@ import React, {
     useEffect,
     useImperativeHandle,
     useMemo,
-    useState,
+    useState
 } from 'react';
 
 import { useSpring, animated as a, SpringValue } from '@react-spring/web';
+// import useMeasure from 'react-use-measure';
 
-// TODO add feature for `openAccordions: AccordionRef[]` & `closeAccordions: AccordionRef[]`. use forwardRef - make examples of usage
+// TODO add feature for `openAccordions: AccordionContentRef[]` & `closeAccordions: AccordionContentRef[]`. use forwardRef - make examples of usage
 // import { useTableContext } from 'components/UI/Table';
 
 // context
 type AccordionContextValue = {
     accordionStyles: {
+        // height: SpringValue<string>;
         maxHeight: SpringValue<string>;
         opacity: SpringValue<number>;
         transform: SpringValue<string>;
     };
     open: boolean;
     toggleOpen: () => void;
+    // setContentHeight: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const AccordionContext = createContext<AccordionContextValue | null>(null);
 
 const useAccordionContext = () => {
     const context = useContext(AccordionContext);
-    if (!context) {
+    if (!context)
         throw new Error(
-            `Accordion compound components cannot be rendered outside the Accordion component`,
+            `Accordion compound components cannot be rendered outside the Accordion component`
         );
-    }
 
     return context;
 };
@@ -46,7 +48,7 @@ const useAccordionContext = () => {
 // component
 interface AccordionComposition {
     Title: typeof Title;
-    Content: typeof AnimatedDiv;
+    Content: typeof Content;
 }
 
 interface Props {
@@ -64,23 +66,29 @@ interface Props {
 const Accordion: FC<PropsWithChildren<Props>> & AccordionComposition = ({
     children,
     onOpen,
-    onClose,
+    onClose
 }) => {
     const [open, setOpen] = useState(false);
 
     const [accordionStyles, setAccordionStyles] = useSpring(() => ({
+        // height: '0vh',
         maxHeight: '0vh',
         opacity: 0,
         transform: 'scale(0)',
-        overflowY: 'auto',
+        overflowY: 'auto'
     }));
+
+    // const [contentHeight, setContentHeight] = useState<number>(0);
+    // console.log({ contentHeight });
 
     useEffect(() => {
         setAccordionStyles({
+            // TODO calculate maxHeight by the height of the content within? "auto"?
+            // height: (open ? contentHeight : 0) + 'px',
             maxHeight: open ? '100vh' : '0vh',
             opacity: open ? 1 : 0,
             transform: open ? 'scale(1)' : 'scale(0)',
-            overflowY: 'auto',
+            overflowY: 'auto'
         });
     }, [open, setAccordionStyles]);
 
@@ -94,15 +102,16 @@ const Accordion: FC<PropsWithChildren<Props>> & AccordionComposition = ({
     }, []);
 
     const contextVal = useMemo(
-        () => ({ accordionStyles, toggleOpen, open }),
-        [accordionStyles, toggleOpen, open],
+        () => ({
+            accordionStyles,
+            toggleOpen,
+            open
+            // setContentHeight
+        }),
+        [accordionStyles, toggleOpen, open]
     );
 
-    return (
-        <AccordionContext.Provider value={contextVal}>
-            {children}
-        </AccordionContext.Provider>
-    );
+    return <AccordionContext.Provider value={contextVal}>{children}</AccordionContext.Provider>;
 };
 
 /**
@@ -115,64 +124,85 @@ const Title: FC<PropsWithChildren<HTMLAttributes<HTMLHeadingElement>>> = ({
     className = 'cursor-pointer bg-gray-300 h-16 p-5 whitespace-no-wrap overflow-hidden text-overflow-ellipsis border-t border-gray-100',
     ...props
 }) => {
-    const { toggleOpen, open } = useAccordionContext();
+    const { toggleOpen } = useAccordionContext();
 
     return (
-        <h3
-            className={`${className} ${open ? 'ac_opened' : 'ac_closed'}`}
-            onClick={toggleOpen}
-            {...props}
-        >
+        <h3 className={`${className}`} onClick={toggleOpen} {...props}>
             {children}
         </h3>
     );
 };
 
-type RefType = Partial<HTMLDivElement> & {
-    open: AccordionContextValue['open'];
-    toggleOpen: AccordionContextValue['toggleOpen'];
-};
+export type AccordionContentRef = RefObject<
+    Partial<
+        HTMLDivElement & {
+            open: AccordionContextValue['open'];
+            toggleOpen: AccordionContextValue['toggleOpen'];
+        }
+    >
+>;
 
 /**
  * TODO how to use component
  * @param param0
  * @returns
  */
-const AnimatedDiv = forwardRef<
-    RefObject<RefType>['current'],
+const Content = forwardRef<
+    AccordionContentRef['current'],
     PropsWithChildren<HTMLAttributes<HTMLDivElement>>
 >(({ children, className }, forwardRef) => {
-    const { accordionStyles, open, toggleOpen } = useAccordionContext();
+    const {
+        accordionStyles,
+        open,
+        toggleOpen
+        // setContentHeight
+    } = useAccordionContext();
 
     useImperativeHandle(forwardRef, () => ({
         open,
-        toggleOpen,
+        toggleOpen
     }));
+
+    // const [contentRef, contentBounds] = useMeasure();
+
+    // useEffect(() => {
+    //     setContentHeight(contentBounds.height);
+    // });
 
     return (
         <a.div
             style={accordionStyles}
             className={className}
-            ref={forwardRef as Ref<HTMLDivElement>}
-        >
+            ref={forwardRef as Ref<HTMLDivElement>}>
+            {/* <div ref={contentRef}> */}
             {children}
+            {/* </div> */}
         </a.div>
     );
 });
+Content.displayName = 'Content';
 
 Accordion.Title = Title;
-Accordion.Content = AnimatedDiv;
+Accordion.Content = Content;
 
 export { Accordion };
 
-export const openAccordions = (refList: RefObject<RefType>[]): void => {
+/**
+ * @see https://gist.github.com/mechanicMo/58d6744e892445341d39f3c8f3324562.js
+ * @param refList
+ */
+export const openAccordions = (refList: AccordionContentRef[]): void => {
     for (const ref of refList) {
-        if (ref.current?.open === false) ref.current.toggleOpen();
+        if (ref.current?.open === false) ref.current.toggleOpen?.();
     }
 };
 
-export const closeAccordions = (refList: RefObject<RefType>[]): void => {
+/**
+ * @see https://gist.github.com/mechanicMo/58d6744e892445341d39f3c8f3324562.js
+ * @param refList
+ */
+export const closeAccordions = (refList: AccordionContentRef[]): void => {
     for (const ref of refList) {
-        if (ref.current?.open) ref.current.toggleOpen();
+        if (ref.current?.open) ref.current.toggleOpen?.();
     }
 };

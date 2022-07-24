@@ -11,7 +11,7 @@ declare type AccordionContextValue = {
 };
 interface AccordionComposition {
     Title: typeof Title;
-    Content: typeof AnimatedDiv;
+    Content: typeof Content;
 }
 interface Props {
     onOpen?: () => void;
@@ -31,18 +31,21 @@ declare const Accordion: FC<PropsWithChildren<Props>> & AccordionComposition;
  * @returns
  */
 declare const Title: FC<PropsWithChildren<HTMLAttributes<HTMLHeadingElement>>>;
-declare type RefType = Partial<HTMLDivElement> & {
+export declare type AccordionContentRef = RefObject<Partial<HTMLDivElement & {
     open: AccordionContextValue['open'];
     toggleOpen: AccordionContextValue['toggleOpen'];
-};
+}>>;
 /**
  * TODO how to use component
  * @param param0
  * @returns
  */
-declare const AnimatedDiv: React.ForwardRefExoticComponent<React.HTMLAttributes<HTMLDivElement> & {
+declare const Content: React.ForwardRefExoticComponent<React.HTMLAttributes<HTMLDivElement> & {
     children?: React.ReactNode;
-} & React.RefAttributes<RefType | null>>;
+} & React.RefAttributes<Partial<HTMLDivElement & {
+    open: AccordionContextValue['open'];
+    toggleOpen: AccordionContextValue['toggleOpen'];
+}> | null>>;
 export { Accordion };
-export declare const openAccordions: (refList: RefObject<RefType>[]) => void;
-export declare const closeAccordions: (refList: RefObject<RefType>[]) => void;
+export declare const openAccordions: (refList: AccordionContentRef[]) => void;
+export declare const closeAccordions: (refList: AccordionContentRef[]) => void;
