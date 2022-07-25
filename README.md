@@ -1,5 +1,6 @@
 # TODO
 
+## To publish:
 npm login
 - username: `mechanicmo`
 
