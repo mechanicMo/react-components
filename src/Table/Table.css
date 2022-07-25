@@ -1,0 +1,3 @@
+.rc__Table__Content .rc__Table__Row:nth-of-type(even) {
+    background-color: rgb(229 231 235);
+}
