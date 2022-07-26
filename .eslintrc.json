@@ -1,10 +1,79 @@
 {
     "env": {
         "browser": true,
+        "cypress/globals": true,
         "es2021": true,
-        "jest": true
+        "es6": true,
+        "jest": true,
+        "node": true
     },
-    "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:prettier/recommended"],
+    "extends": [
+        "eslint:recommended", 
+        "plugin:@typescript-eslint/recommended",
+        "plugin:ava/recommended",
+        "plugin:eslint-comments/recommended",
+        "plugin:node/recommended",
+        "plugin:prettier/recommended",
+        "plugin:promise/recommended",
+        "plugin:react-hooks/recommended",
+        "plugin:react/recommended", 
+        "plugin:unicorn/recommended",
+        "xo"
+    ],
+    "plugins": [
+        "@typescript-eslint", 
+        "cypress",
+        "import", 
+        "prettier",
+        "react-hooks",
+        "react"
+    ],
+    "rules": {
+        "@typescript-eslint/no-redeclare": ["error"],
+        "@typescript-eslint/no-useless-constructor": ["error"],
+        "ava/no-import-test-files": "off",
+        "ava/no-todo-test": "off",
+        "capitalized-comments": "off",
+        "eslint-comments/disable-enable-pair": ["error",{ "allowWholeFile": true }],
+        "eslint-comments/no-unused-disable": "off",
+        "import/default": "error",
+        "import/export": "error",
+        "import/extensions": ["error",{ "js": "never", "jsx": "never", "json": "always" }],
+        "import/namespace": ["error", { "allowComputed": true }],
+        "import/no-absolute-path": "error",
+        "import/no-amd": "error",
+        "import/no-duplicates": "error",
+        "import/no-extraneous-dependencies": ["error",{"devDependencies": ["test/**/*.js","e2e-tests/**/*.js","test/**/*.ts","e2e-tests/**/*.ts"]}],
+        "import/no-mutable-exports": "error",
+        "import/no-named-as-default-member": "error",
+        "import/no-named-as-default": "error",
+        "import/no-self-import": "error",
+        "import/no-unassigned-import": "error",
+        "import/no-unresolved": "error",
+        "import/no-unused-modules": "error",
+        "import/no-useless-path-segments": ["error", { "noUselessIndex": true }],
+        "import/no-webpack-loader-syntax": "error",
+        "import/order": "error",
+        "no-await-in-loop": "off",
+        "no-process-exit": "off",
+        "no-redeclare": "off",
+        "no-useless-constructor": "off",
+        "no-var": "error",
+        "no-warning-comments": "off",
+        "node/no-extraneous-import": "off",
+        "node/no-extraneous-require": "off",
+        "node/no-missing-import": "off",
+        "node/no-unpublished-import": "off",
+        "node/no-unpublished-require": "off",
+        "node/no-unsupported-features/es-syntax": "off",
+        "node/shebang": "off",
+        "promise/prefer-await-to-callbacks": "error",
+        "promise/prefer-await-to-then": "error",
+        "react/prop-types": "off",
+        "react/react-in-jsx-scope": "off",
+        "require-atomic-updates": "off",
+        "unicorn/prevent-abbreviations": "off"
+    },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaFeatures": {
@@ -13,12 +82,64 @@
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
-    "plugins": [
-        "react",
-        "@typescript-eslint"
-    ],
-    "rules": {
-        "react/react-in-jsx-scope": "off",
-        "react/prop-types": "off"
-    }
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
+    "overrides": [
+        {
+            "files": [
+                "*.js",
+                "*.jsx"
+            ],
+            "parser": "@babel/eslint-parser",
+            "extends": [
+                "eslint:recommended",
+                "plugin:react/recommended",
+                "plugin:react-hooks/recommended",
+                "plugin:cypress/recommended"
+            ],
+            "rules": {
+                "prettier/prettier": "error",
+                "react/jsx-uses-react": "off",
+                "react/prop-types": "off",
+                "react/react-in-jsx-scope": "off"
+            }
+        },
+        {
+            "files": [
+                "*.ts",
+                "*.tsx"
+            ],
+            "parser": "@typescript-eslint/parser",
+            "extends": [
+                "eslint:recommended",
+                "plugin:react/recommended",
+                "plugin:react-hooks/recommended",
+                "plugin:cypress/recommended",
+                "plugin:@typescript-eslint/recommended"
+            ],
+            "rules": {
+                "react/jsx-uses-react": "off",
+                "react/prop-types": "off",
+                "react/react-in-jsx-scope": "off",
+                "@typescript-eslint/no-unused-vars": [
+                    "error",
+                    {
+                        "argsIgnorePattern": "^_"
+                    }
+                ],
+                "@typescript-eslint/ban-ts-comment": [
+                    "error",
+                    {
+                        "ts-ignore": "allow-with-description"
+                    }
+                ]
+            }
+        }
+    ]
 }
+
+
+

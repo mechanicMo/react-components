@@ -11,7 +11,7 @@ import React, {
     useEffect,
     useImperativeHandle,
     useMemo,
-    useState
+    useState,
 } from 'react';
 
 import { useSpring, animated as a, SpringValue } from '@react-spring/web';
@@ -36,7 +36,7 @@ const useAccordionContext = () => {
     const context = useContext(AccordionContext);
     if (!context)
         throw new Error(
-            `Accordion compound components cannot be rendered outside the Accordion component`
+            `Accordion compound components cannot be rendered outside the Accordion component`,
         );
 
     return context;
@@ -63,7 +63,7 @@ interface Props {
 const Accordion: FC<PropsWithChildren<Props>> & AccordionComposition = ({
     children,
     onOpen,
-    onClose
+    onClose,
 }) => {
     const [open, setOpen] = useState(false);
 
@@ -72,8 +72,8 @@ const Accordion: FC<PropsWithChildren<Props>> & AccordionComposition = ({
         maxHeight: '0vh',
         opacity: 0,
         transform: 'scale(0)',
-        overflowY: 'auto'
-    }));
+        overflowY: 'auto',
+	}));
 
     // const [contentHeight, setContentHeight] = useState<number>(0);
     // console.log({ contentHeight });
@@ -85,14 +85,17 @@ const Accordion: FC<PropsWithChildren<Props>> & AccordionComposition = ({
             maxHeight: open ? '100vh' : '0vh',
             opacity: open ? 1 : 0,
             transform: open ? 'scale(1)' : 'scale(0)',
-            overflowY: 'auto'
-        });
+            overflowY: 'auto',
+		});
     }, [open, setAccordionStyles]);
 
     useEffect(() => {
-        if (open) onOpen && onOpen();
-        else onClose && onClose();
-    }, [open]);
+        if (open) {
+            onOpen && onOpen();
+        } else {
+            onClose && onClose();
+        }
+    }, [onClose, onOpen, open]);
 
     const toggleOpen = useCallback(() => {
         setOpen((oldOpen) => !oldOpen);
@@ -102,13 +105,17 @@ const Accordion: FC<PropsWithChildren<Props>> & AccordionComposition = ({
         () => ({
             accordionStyles,
             toggleOpen,
-            open
+            open,
             // setContentHeight
         }),
-        [accordionStyles, toggleOpen, open]
-    );
+        [accordionStyles, toggleOpen, open],
+	);
 
-    return <AccordionContext.Provider value={contextVal}>{children}</AccordionContext.Provider>;
+    return (
+		<AccordionContext.Provider value={contextVal}>
+			{children}
+		</AccordionContext.Provider>
+	);
 };
 
 /**
@@ -151,13 +158,13 @@ const Content = forwardRef<
     const {
         accordionStyles,
         open,
-        toggleOpen
+        toggleOpen,
         // setContentHeight
     } = useAccordionContext();
 
     useImperativeHandle(forwardRef, () => ({
         open,
-        toggleOpen
+        toggleOpen,
     }));
 
     // const [contentRef, contentBounds] = useMeasure();
@@ -170,7 +177,8 @@ const Content = forwardRef<
         <a.div
             style={accordionStyles}
             className={className}
-            ref={forwardRef as Ref<HTMLDivElement>}>
+            ref={forwardRef as Ref<HTMLDivElement>}
+		>
             {/* <div ref={contentRef}> */}
             {children}
             {/* </div> */}
@@ -190,7 +198,9 @@ export { Accordion };
  */
 export const openAccordions = (refList: AccordionContentRef[]): void => {
     for (const ref of refList) {
-        if (ref.current?.open === false) ref.current.toggleOpen?.();
+        if (ref.current?.open === false) {
+            ref.current.toggleOpen?.();
+        }
     }
 };
 
@@ -200,6 +210,8 @@ export const openAccordions = (refList: AccordionContentRef[]): void => {
  */
 export const closeAccordions = (refList: AccordionContentRef[]): void => {
     for (const ref of refList) {
-        if (ref.current?.open) ref.current.toggleOpen?.();
+        if (ref.current?.open) {
+            ref.current.toggleOpen?.();
+        }
     }
 };
