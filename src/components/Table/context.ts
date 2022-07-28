@@ -1,11 +1,17 @@
-import { createContext, Dispatch, SetStateAction, useContext } from 'react';
+import {
+    createContext,
+    Dispatch,
+    MutableRefObject,
+    SetStateAction,
+    useContext,
+} from 'react';
 
 export interface TableContextType {
     numColumns: number | null;
     setNumColumns: Dispatch<SetStateAction<number | null>>;
 
-    widthByColumn: Record<number, number>;
-    setWidthByColumn: Dispatch<SetStateAction<Record<number, number>>>;
+    widthByColumn: MutableRefObject<Record<number, number>>;
+    // setWidthByColumn: Dispatch<SetStateAction<Record<number, number>>>;
 }
 
 export const TableContext = createContext<TableContextType | null>(null);

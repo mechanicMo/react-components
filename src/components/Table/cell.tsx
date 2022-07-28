@@ -73,6 +73,12 @@ const Cell: FC<CellProps> = ({
 
     useCellEffects({ ref, columnIndex, setColumnIndex });
 
+    const width__wbc = widthByColumn.current[columnIndex];
+    const [width, setWidth] = useState(width__wbc ?? 'auto');
+    useEffect(() => {
+        setWidth(width__wbc);
+    }, [columnIndex, width__wbc]);
+
     const numberColor = getNumberColor({ children, format });
     const tag = getTag({ children, colors, format });
 
@@ -89,7 +95,7 @@ const Cell: FC<CellProps> = ({
             )}
             ref={ref}
             style={{
-                width: widthByColumn[columnIndex] ?? 'auto',
+                width,
                 ...style,
             }}
             {...props}
@@ -108,8 +114,11 @@ const useCellEffects = ({
     ref: MutableRefObject<HTMLDivElement>;
     setColumnIndex: Dispatch<SetStateAction<ColumnIndex>>;
 }) => {
-    const { numColumns, setNumColumns, widthByColumn, setWidthByColumn } =
-        useTableContext();
+    const {
+        numColumns,
+        setNumColumns,
+        widthByColumn, //setWidthByColumn
+    } = useTableContext();
 
     useEffect(() => {
         const refCurrent = ref.current;
@@ -134,16 +143,20 @@ const useCellEffects = ({
         const newColumnIndex = [...children].indexOf(refCurrent);
         if (newColumnIndex !== columnIndex) setColumnIndex(newColumnIndex);
 
-        const columnWidth = widthByColumn[newColumnIndex] ?? 0;
+        const wbcCurrent = widthByColumn.current;
 
-        if (refCurrent.offsetWidth > columnWidth)
-            setWidthByColumn((widthByColumn) => ({
-                ...widthByColumn,
-                [newColumnIndex]: refCurrent.offsetWidth,
-            }));
+        if (wbcCurrent) {
+            const columnWidth = wbcCurrent[newColumnIndex] ?? 0;
+
+            if (refCurrent.offsetWidth > columnWidth)
+                widthByColumn.current = {
+                    ...wbcCurrent,
+                    [newColumnIndex]: refCurrent.offsetWidth + 1,
+                };
+        }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [ref]);
+    }, [ref, widthByColumn]);
 };
 
 const getNumberColor = ({

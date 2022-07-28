@@ -1,6 +1,8 @@
-import React, { FC, HTMLProps, useState } from 'react';
+import React, { FC, HTMLProps, useRef, useState } from 'react';
 
 import { twMerge } from 'tailwind-merge';
+
+import './Table.css';
 
 import { TableContext, TableContextType } from './context';
 import Cell from './cell';
@@ -28,15 +30,18 @@ export const FancyTable: FC<HTMLProps<HTMLDivElement>> & TableComposition = ({
 }) => {
     const [numColumns, setNumColumns] =
         useState<TableContextType['numColumns']>(null);
-    const [widthByColumn, setWidthByColumn] = useState<
-        TableContextType['widthByColumn']
-    >({});
+    // const [widthByColumn, setWidthByColumn] = useState<
+    //     TableContextType['widthByColumn']
+    // >({});
+    const widthByColumn = useRef<TableContextType['widthByColumn']['current']>(
+        {},
+    );
 
     const contextValue = {
         numColumns,
         setNumColumns,
         widthByColumn,
-        setWidthByColumn,
+        // setWidthByColumn,
     };
 
     return (
