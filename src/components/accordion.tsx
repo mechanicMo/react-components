@@ -73,7 +73,7 @@ const Accordion: FC<PropsWithChildren<Props>> & AccordionComposition = ({
         opacity: 0,
         transform: 'scale(0)',
         overflowY: 'auto',
-	}));
+    }));
 
     // const [contentHeight, setContentHeight] = useState<number>(0);
     // console.log({ contentHeight });
@@ -86,7 +86,7 @@ const Accordion: FC<PropsWithChildren<Props>> & AccordionComposition = ({
             opacity: open ? 1 : 0,
             transform: open ? 'scale(1)' : 'scale(0)',
             overflowY: 'auto',
-		});
+        });
     }, [open, setAccordionStyles]);
 
     useEffect(() => {
@@ -109,13 +109,13 @@ const Accordion: FC<PropsWithChildren<Props>> & AccordionComposition = ({
             // setContentHeight
         }),
         [accordionStyles, toggleOpen, open],
-	);
+    );
 
     return (
-		<AccordionContext.Provider value={contextVal}>
-			{children}
-		</AccordionContext.Provider>
-	);
+        <AccordionContext.Provider value={contextVal}>
+            <div className="mm__rc">{children}</div>
+        </AccordionContext.Provider>
+    );
 };
 
 /**
@@ -125,13 +125,17 @@ const Accordion: FC<PropsWithChildren<Props>> & AccordionComposition = ({
  */
 const Title: FC<PropsWithChildren<HTMLAttributes<HTMLHeadingElement>>> = ({
     children,
-    className = 'cursor-pointer bg-gray-300 h-16 p-5 whitespace-no-wrap overflow-hidden text-overflow-ellipsis border-t border-gray-100',
+    className,
     ...props
 }) => {
     const { toggleOpen } = useAccordionContext();
 
     return (
-        <h3 className={`${className}`} onClick={toggleOpen} {...props}>
+        <h3
+            className={`mm-cursor-pointer mm-bg-gray-300 mm-h-16 mm-p-5 mm-whitespace-no-wrap mm-overflow-hidden mm-text-overflow-ellipsis mm-border-t mm-border-gray-100 ${className}`}
+            onClick={toggleOpen}
+            {...props}
+        >
             {children}
         </h3>
     );
@@ -178,7 +182,7 @@ const Content = forwardRef<
             style={accordionStyles}
             className={className}
             ref={forwardRef as Ref<HTMLDivElement>}
-		>
+        >
             {/* <div ref={contentRef}> */}
             {children}
             {/* </div> */}
