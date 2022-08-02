@@ -11,7 +11,6 @@ export interface TableContextType {
     setNumColumns: Dispatch<SetStateAction<number | null>>;
 
     widthByColumn: MutableRefObject<Record<number, number>>;
-    // setWidthByColumn: Dispatch<SetStateAction<Record<number, number>>>;
 }
 
 export const TableContext = createContext<TableContextType | null>(null);

@@ -76,8 +76,8 @@ const Cell: FC<CellProps> = ({
     const width__wbc = widthByColumn.current[columnIndex];
     const [width, setWidth] = useState(width__wbc ?? 'auto');
     useEffect(() => {
-        setWidth(width__wbc);
-    }, [columnIndex, width__wbc]);
+        if (width !== width__wbc) setWidth(width__wbc);
+    }, [columnIndex, width, width__wbc]);
 
     const numberColor = getNumberColor({ children, format });
     const tag = getTag({ children, colors, format });
@@ -114,11 +114,7 @@ const useCellEffects = ({
     ref: MutableRefObject<HTMLDivElement>;
     setColumnIndex: Dispatch<SetStateAction<ColumnIndex>>;
 }) => {
-    const {
-        numColumns,
-        setNumColumns,
-        widthByColumn, //setWidthByColumn
-    } = useTableContext();
+    const { numColumns, setNumColumns, widthByColumn } = useTableContext();
 
     useEffect(() => {
         const refCurrent = ref.current;
@@ -205,6 +201,7 @@ const getTag = ({
             } else if (colors instanceof Object) {
                 // colors: Record<string,string>
                 color = colors[children].trim();
+                // TODO handle if color not found
             } else if (colors === 'random') {
                 // colors: 'random'
                 // TODO

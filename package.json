@@ -1,12 +1,12 @@
 {
   "name": "@mechanic-mo/react-components",
-  "version": "2.0.1",
+  "version": "2.0.5",
   "description": "",
   "scripts": {
     "build": "yarn build:styles && rollup -c",
     "build:styles": "postcss src/styles/tailwind.css -o src/styles/main.css",
-    "lint": "eslint ./src/*.tsx ./src/**/*.tsx",
-    "lint:fix": "eslint ./src/*.tsx ./src/**/*.tsx --fix",
+    "lint": "eslint ./src/**/*.tsx",
+    "lint:fix": "eslint ./src/**/*.tsx --fix",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
   "repository": "git+https://github.com/mechanicMo/react-components.git",

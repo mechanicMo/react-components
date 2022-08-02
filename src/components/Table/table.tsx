@@ -30,9 +30,7 @@ export const FancyTable: FC<HTMLProps<HTMLDivElement>> & TableComposition = ({
 }) => {
     const [numColumns, setNumColumns] =
         useState<TableContextType['numColumns']>(null);
-    // const [widthByColumn, setWidthByColumn] = useState<
-    //     TableContextType['widthByColumn']
-    // >({});
+
     const widthByColumn = useRef<TableContextType['widthByColumn']['current']>(
         {},
     );
@@ -41,7 +39,6 @@ export const FancyTable: FC<HTMLProps<HTMLDivElement>> & TableComposition = ({
         numColumns,
         setNumColumns,
         widthByColumn,
-        // setWidthByColumn,
     };
 
     return (
